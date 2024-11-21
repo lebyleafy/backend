@@ -1,0 +1,6 @@
+--no-binary :all:
+Flask
+flask-cors
+neo4j
+python-dotenv
+requests
