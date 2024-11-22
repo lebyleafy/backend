@@ -36,26 +36,15 @@ export default async function handler(
 
   const { address } = req.query;
 
-  if (!address || typeof address !== 'string') {
-    return res.status(400).json({ success: false, message: 'Valid address is required' });
+  if (!address) {
+    return res.status(400).json({ success: false, message: 'Address is required' });
   }
 
   try {
-    // Use an environment variable for the Python API URL
-    const pythonApiUrl = process.env.PYTHON_API_URL;
-    if (!pythonApiUrl) {
-      throw new Error('PYTHON_API_URL environment variable is not set');
-    }
-
     // Fetch data from the Python API
     const response = await fetch(
-      `${pythonApiUrl}/api/transactions?address=${encodeURIComponent(address)}`
+      `http://backend-self-ten.vercel.app/api/transactions?address=${address}`
     );
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
     const data = await response.json();
 
     if (data.success) {
@@ -64,7 +53,7 @@ export default async function handler(
         from: tx.from,
         to: tx.to,
         amount: parseFloat(tx.amount), // Ensure amount is a number
-        timestamp: parseInt(tx.timestamp, 10), // Ensure timestamp is a number
+        timestamp: parseInt(tx.timestamp), // Ensure timestamp is a number
         hash: tx.hash || `0x${Math.random().toString(16).slice(2, 10)}...`,
         block: tx.block || Math.floor(Math.random() * 1000000).toString(),
         fee: tx.fee || (Math.random() * 0.01).toFixed(6),
@@ -84,7 +73,7 @@ export default async function handler(
     console.error('Error fetching transactions:', error);
     return res.status(500).json({
       success: false,
-      message: error instanceof Error ? error.message : 'An unknown error occurred',
+      message: 'Failed to connect to Python backend',
     });
   }
 }
