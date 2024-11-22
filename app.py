@@ -16,7 +16,7 @@ app = FastAPI()
 # CORS middleware for allowing frontend to access the backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Update with your frontend URL
+    allow_origins=["http://frontend-git-main-lebys-projects.vercel.app"],  # Update with your frontend URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
