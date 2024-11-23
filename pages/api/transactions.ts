@@ -43,7 +43,7 @@ export default async function handler(
   try {
     // Fetch data from the Python API
     const response = await fetch(
-      `http://backend-self-ten.vercel.app/api/transactions?address=${address}`
+      `http://backend-git-main-lebys-projects.vercel.app/api/transactions?address=${address}`
     );
     const data = await response.json();
 
